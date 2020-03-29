@@ -31,7 +31,7 @@
   
                 return `<table>
                             <tr>
-                                <td rowspan="2"><a><img src="${book.thumbnailUrl}" width="128" onerror="this.onerror = null; this.src='img/nocover.jpg'" alt="" /></a></td>
+                                <td rowspan="2"><a href="book.html?isbn=${book.isbn}"><img src="${book.thumbnailUrl}" width="128" onerror="this.onerror = null; this.src='img/nocover.jpg'" alt="" /></a></td>
                                 <td><a href="book.html?isbn=${book.isbn}"><b>${book.title}</b></a> By ${authors}</td>
                             </tr>
                             <tr>

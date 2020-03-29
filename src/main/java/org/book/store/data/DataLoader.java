@@ -14,7 +14,7 @@ public class DataLoader {
 
             return objectMapper.readValue(
                     Thread.currentThread().getContextClassLoader().getResourceAsStream("data/books.json"),
-                    new TypeReference<>() {
+                    new TypeReference<List<Book>>() {
                     });
         } catch (IOException ex) {
             throw new RuntimeException("Could not read books from data/books.json");
