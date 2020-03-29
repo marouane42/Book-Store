@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Book Store - All Books</title>
+        <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                const isbn = window.location.search.substr(6);  // 6 for the url "?isbn
+                $.ajax('http://localhost:8080/api/books/' + isbn,
+                    {
+                        success: function (data, status) {
+                            console.info(status);
+                            $( "#cnt" ).html(displayBookInDetails(data));
+                        },
+                        error: function (jqXhr, textStatus, errorMessage) {
+                            $( "#cnt" ).html(`<div style="text-align: center"><h1>Error : ${errorMessage}</h1></div>`);
+                        }
+                    });
+            });
+
+            function displayBookInDetails(book) {
+                const authors = book.authors
+                    .filter(auth => auth.name !== null && auth.name !== '')
+                    .map(auth => auth.name)
+                    .join(", ");
+                const categories = book.categories.map(cat => cat.name).join(" | ");
+                return `<div style="text-align: center"><h1>${book.title}</h1><h2>By ${authors}</h2></div>
+                        <table>
+                            <tr>
+                                <td rowspan="5"><a><img src="${book.thumbnailUrl}" width="265" onerror="this.onerror = null; this.src='img/nocover.jpg'" alt=""/></a></td>
+                                <td>Categories</td>
+                                <td>  : ${categories}</td>
+                            </tr>
+                            <tr>
+                                <td>Pages count</td>
+                                <td> : ${book.pageCount}</td>
+                            </tr>
+                            <tr>
+                                <td>Published</td>
+                                <td>  : ${new Date(book.publishedDate)}</td>
+                            </tr>
+                            <tr>
+                                <td>Status</td>
+                                <td>  : ${book.status.name}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">${book.longDescription === null ? 'No description Available' : book.longDescription}</td>
+                            </tr>
+                        </table>`;
+            }
+        </script>
+    </head>
+    <body>
+        <div id="cnt" style="margin-left: 50px;margin-right: 50px"></div>
+    </body>
+</html>

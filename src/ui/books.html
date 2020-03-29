@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Book Store - All Books</title>
+        <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $.ajax('http://localhost:8080/api/books',
+                    {
+                        success: function (data) {
+                            console.info(data.length);
+                            data.forEach(book => {
+                                $( "#cnt" )
+                                    .append(displayBook(book))
+                                    .append("<hr />");
+                            })
+                        },
+                        error: function (jqXhr, textStatus, errorMessage) { // error callback 
+                            $( "#cnt" ).html(`<div style="text-align: center"><h1>Error : ${errorMessage}</h1></div>`);
+                        }
+                    });
+            });
+
+            function displayBook(book) {
+                const authors = book.authors
+                    .filter(auth => auth.name !== null && auth.name !== '')
+                    .map(auth => auth.name)
+                    .join(", ");
+                const description = book.shortDescription === null ? (book.longDescription === null ? 'No Description Available' : book.longDescription) : book.shortDescription;
+                const trunkedDescription = description.length > 400 ? description.substr(0, 400) + '...' : description;
+  
+                return `<table>
+                            <tr>
+                                <td rowspan="2"><a><img src="${book.thumbnailUrl}" width="128" onerror="this.onerror = null; this.src='img/nocover.jpg'" alt="" /></a></td>
+                                <td><a href="book.html?isbn=${book.isbn}"><b>${book.title}</b></a> By ${authors}</td>
+                            </tr>
+                            <tr>
+                                <td>${trunkedDescription}</td>
+                            </tr>
+                        </table>`;
+            }
+        </script>
+
+    </head>
+    <body>
+        <div style="text-align: center"><h1>List Of All Available Book</h1></div>
+        <div id="cnt" style="margin-left: 50px;margin-right: 50px"></div>
+    </body>
+</html>
