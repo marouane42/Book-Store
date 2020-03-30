@@ -6,13 +6,13 @@ You can:
 * List all available Books
 * See details of a specific Book
 
-Technically, this done with:
+Technically, this is done with:
 * Jetty Embedded Server
 * Jersey framework to provide the two REST end points
 * Jackson for JSON handling
 * Two html pages with javascript(JQuery) for the UI
 
-## Installation an Use
+## Installation and Use
 You need to have installed:
 - A Java JVM, 8 or more.
 
